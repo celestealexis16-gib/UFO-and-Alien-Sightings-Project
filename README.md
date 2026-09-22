@@ -1,5 +1,7 @@
-# Signal Atlas: UFO and Alien Sightings Map
 
+# Signal Atlas: UFO and Alien Sightings Map
+Welcome!
+Hello, my name is Alexis, and I decided to create this interactive map to bring the world of UFO and alien sightings to life. Driven by a passion for Python and a curiosity about the unexplained, I built The Anomalous Radar to track, visualize, and analyze reported close encounters across the globe.Whether you are looking for historical encounters, mapping out recent midnight anomalies, or searching for hot spots in your own backyard, this project puts the data right at your fingertips. Feel free to filter sightings by date, shape, or region, and see the patterns reveal themselves.
 Signal Atlas is a Streamlit application for exploring UFO sighting records from the uploaded Excel dataset. It combines an interactive map, filters, charts, report investigation tools, local bookmarks, community notes, and a sighting submission form.
 
 ## Requirements
@@ -219,3 +221,4 @@ A Streamlit smoke test can be run with:
 ```
 
 A result of `0` means no Streamlit exceptions were reported during the test.
+
