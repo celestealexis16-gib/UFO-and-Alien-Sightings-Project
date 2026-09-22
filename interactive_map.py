@@ -16,6 +16,7 @@ FAVORITES_FILE = Path(__file__).with_name("favorite_sightings.csv")
 COMMENTS_FILE = Path(__file__).with_name("sighting_comments.csv")
 MEDIA_DIR = Path(__file__).with_name("submitted_media")
 REQUIRED_COLUMNS = {"Date_time", "city", "state/province", "country", "UFO_shape", "length_of_encounter_seconds", "description", "date_documented", "latitude", "longitude"}
+MAP_POINT_LIMIT = 6000
 
 SHAPE_COLORS = {
 	"light": [255, 204, 92],
@@ -80,6 +81,11 @@ def load_data() -> pd.DataFrame:
 	data["color"] = data["shape"].map(lambda shape: SHAPE_COLORS.get(shape, [180, 190, 202]))
 	data["source_url"] = data.apply(build_source_url, axis=1)
 	return data
+
+
+@st.cache_data(max_entries=32)
+def serialize_csv(data: pd.DataFrame) -> bytes:
+	return data.to_csv(index=False).encode("utf-8")
 
 
 def infer_status(description: str) -> str:
@@ -411,14 +417,18 @@ def main() -> None:
 		metric_cols[1].metric("Countries", f"{filtered['country_label'].nunique():,}")
 		metric_cols[2].metric("Peak year", str(int(filtered["year"].value_counts().idxmax())) if not filtered.empty else "—")
 		metric_cols[3].metric("Shape families", f"{filtered['shape'].nunique():,}")
-		st.download_button("Download filtered CSV", filtered.to_csv(index=False).encode("utf-8"), "filtered_sightings.csv", "text/csv", icon=":material/download:")
+		export_data = filtered.drop(columns=["color"])
+		st.download_button("Download filtered CSV", serialize_csv(export_data), "filtered_sightings.csv", "text/csv", icon=":material/download:")
 
 	if filtered.empty:
 		st.warning("No records match the current filters.")
 		return
 
-	# Keep the full filtered frame for exports and details, but cap rendered points for responsiveness.
-	map_data = filtered if len(filtered) <= 12000 else filtered.sample(12000, random_state=42)
+	# Keep the full filtered frame for exports and details, but send only map fields to the browser.
+	map_columns = ["record_id", "shape", "date_label", "city", "country_label", "description", "latitude", "longitude", "color"]
+	map_data = filtered.loc[:, map_columns]
+	if len(map_data) > MAP_POINT_LIMIT:
+		map_data = map_data.sample(MAP_POINT_LIMIT, random_state=42)
 	with map_tab:
 		map_layers = []
 		map_style = {
