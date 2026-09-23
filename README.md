@@ -3,7 +3,7 @@
 Welcome! Hello, my name is Alexis, and I decided to create this interactive map to bring the world of UFO and alien sightings to life. Driven by a passion for Python and a curiosity about the unexplained, I built The Anomalous Radar to track, visualize, and analyze reported close encounters across the globe.Whether you are looking for historical encounters, mapping out recent midnight anomalies, or searching for hot spots in your own backyard, this project puts the data right at your fingertips. Feel free to filter sightings by date, shape, or region, and see the patterns reveal themselves.Signal Atlas is a Streamlit app for exploring a spreadsheet of reported UFO sightings. It combines an interactive map with filters, timeline exploration, charts, report investigation tools, bookmarks, local community notes, and a form for recording new sightings.
 
 The app is an exploratory research tool. It preserves values from the source spreadsheet and clearly labels classifications calculated by the app as heuristic or completeness-based. It does not verify that a sighting is authentic.
-WARNING: THERE MAY BE BUGS AND THE APP MAY BE LAGGY
+WARNING: THERE MAY BE BUGS DUE TO THE AMOUNT OF DATA ON THIS APP AND THE APP MAY BE LAGGY and SLOW
 ## Features
 
 - Explore geolocated sightings on an interactive PyDeck map.
